@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster, toast } from "sonner";
+import { Toaster} from "sonner";
 import HomePage from "./pages/HomePage";
 import NotFound from "./pages/NotFound";
 
