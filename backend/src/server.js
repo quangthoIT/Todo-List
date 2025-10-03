@@ -6,16 +6,17 @@ import { connectDB } from "./config/db.js";
 
 dotenv.config(); // Đọc file .env
 
-connectDB(); // Kết nối đến database
-
 const PORT = process.env.PORT || 5001; // Đọc biến PORT tạo trong file .env hoặc 5001
 
 const app = express(); // Khởi tạo express
 
-app.use(express.json());
+app.use(express.json()); // Khóa xây dựng JSON
 
 app.use("/api/tasks", taskRouter); // Khởi tạo router
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Kết nối với cơ sở dữ liệu trước khi chạy server
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
 });
