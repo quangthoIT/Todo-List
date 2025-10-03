@@ -1,0 +1,12 @@
+// Cài đặt để sử dụng shadcn/ui trong project
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "jsx": "react-jsx",
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src"]
+}
