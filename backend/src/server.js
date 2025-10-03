@@ -12,7 +12,9 @@ const PORT = process.env.PORT || 5001; // Đọc biến PORT tạo trong file .e
 
 const app = express(); // Khởi tạo express
 
-app.use("/api/task", taskRouter); // Khởi tạo router
+app.use(express.json());
+
+app.use("/api/tasks", taskRouter); // Khởi tạo router
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
