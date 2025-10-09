@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 
 const AddTask = () => {
   return (
-    <Card className="p-6 border-0 bg-slate-50 shadow-md">
+    <Card className="p-6 border-0 bg-slate-50 shadow-md mx-5 sm:mx-0">
       <div className="flex flex-col gap-4 sm:flex-row">
         <Input
           type="text"

@@ -9,8 +9,8 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String, // Kiểu dữ liệu là chuỗi
-      enum: ["pending", "active", "complete"], // Danh sách các trạng thái
-      default: "pending", // Mặc định là "pending"
+      enum: ["active", "complete"], // Danh sách các trạng thái
+      default: "active", // Mặc định là "active"
     },
     completedAt: {
       type: Date, // Ngày hoàn thành
