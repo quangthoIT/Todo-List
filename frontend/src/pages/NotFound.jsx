@@ -13,7 +13,7 @@ const NotFound = () => {
 
       <a
         href="/"
-        className="inline-block px-5 py-3 mt-5 font-medium text-white bg-[#6C21E5] transition shadow-md rounded-xl hover:bg-[#5614D2]"
+        className="inline-block px-5 py-3 mt-5 font-medium text-white bg-blue-600 transition shadow-md rounded-xl hover:bg-blue-700"
       >
         Quay về trang chủ
       </a>
