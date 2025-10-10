@@ -8,6 +8,7 @@ const StartAndFilters = ({
   activeTasksCount = 0,
   completedTasksCount = 0,
   filter = "all",
+  setFilter,
 }) => {
   return (
     <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
@@ -34,6 +35,7 @@ const StartAndFilters = ({
             key={type}
             variant={filter === type ? "mine" : "secondary"}
             size="sm"
+            onClick={() => setFilter(type)}
           >
             <Filter className="size-4" />
             {FilterTypes[type]}

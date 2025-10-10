@@ -11,20 +11,41 @@ import axios from "axios";
 
 const HomePage = () => {
   const [taskBuffer, setTaskBuffer] = useState([]);
+
+  const [activeTaskCount, setActiveTaskCount] = useState(0);
+
+  const [completedTaskCount, setCompletedTaskCount] = useState(0);
+
+  const [filter, setFilter] = useState("all");
+
   useEffect(() => {
     fetchTasks();
   }, []);
+
   const fetchTasks = async () => {
     try {
       const res = await axios.get("http://localhost:5001/api/tasks");
-      setTaskBuffer(res.data);
-      console.log(res.data);
-      toast.success("Truy xuất tasks thành công.");
+      setTaskBuffer(res.data.tasks);
+      setActiveTaskCount(res.data.activeCount);
+      setCompletedTaskCount(res.data.completedCount);
     } catch (error) {
       console.error("Lỗi xảy ra khi truy xuất tasks:", error);
       toast.error("Lỗi xảy ra khi truy xuất tasks.");
     }
   };
+
+  // Hàm để lấy task theo filter
+  const filteredTasks = taskBuffer.filter((task) => {
+    switch (filter) {
+      case "active":
+        return task.status === "active";
+      case "completed":
+        return task.status === "complete";
+      default:
+        return true;
+    }
+  });
+
   return (
     <div className="min-h-screen w-full relative">
       {/* Soft Morning Mist Background */}
@@ -53,9 +74,14 @@ const HomePage = () => {
             {/* Tạo task */}
             <AddTask />
             {/* Thống kê và Bộ lọc */}
-            <StartAndFilters />
+            <StartAndFilters
+              filter={filter}
+              setFilter={setFilter}
+              activeTasksCount={activeTaskCount}
+              completedTasksCount={completedTaskCount}
+            />
             {/* Danh sách task */}
-            <TaskList filteredTasks={taskBuffer} />
+            <TaskList filteredTasks={filteredTasks} filter={filter} />
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               {/* Phân trang */}
               <TaskListPagination />
@@ -63,7 +89,10 @@ const HomePage = () => {
               <DateTimeFilter />
             </div>
             {/* Chân trang */}
-            <Footer />
+            <Footer
+              activeTasksCount={activeTaskCount}
+              completedTasksCount={completedTaskCount}
+            />
           </div>
         </div>
       }

@@ -2,8 +2,22 @@ import Task from "../models/Task.js";
 
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 }); // Lấy tất cả các task và sắp xếp theo thời gian tạo giảm dần
-    res.status(200).json(tasks); // Trả về danh sách tất cả các task
+    const results = await Task.aggregate([
+      {
+        $facet: {
+          tasks: [{ $sort: { createdAt: -1 } }],
+          activeCount: [{ $match: { status: "active" } }, { $count: "count" }],
+          completeCount: [
+            { $match: { status: "completed" } },
+            { $count: "count" },
+          ],
+        },
+      },
+    ]);
+    const tasks = results[0].tasks;
+    const activeCount = results[0].activeCount[0]?.count || 0;
+    const completeCount = results[0].completeCount[0]?.count || 0;
+    res.status(200).json({ tasks, activeCount, completeCount }); // Trả về dữ liệu với mã trạng thái 200 (OK)
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks", error }); // Xử lý lỗi
   }
