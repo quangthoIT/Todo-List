@@ -50,7 +50,7 @@ const TaskCard = ({ task, index }) => {
                 "text-base transition-all duration-200",
                 task.status === "completed"
                   ? "line-through text-slate-400"
-                  : "text-slate-500"
+                  : "text-slate-800"
               )}
             >
               {task.title}

@@ -55,7 +55,7 @@ const HomePage = () => {
             {/* Thống kê và Bộ lọc */}
             <StartAndFilters />
             {/* Danh sách task */}
-            <TaskList />
+            <TaskList filteredTasks={taskBuffer} />
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               {/* Phân trang */}
               <TaskListPagination />
