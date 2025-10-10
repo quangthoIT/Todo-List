@@ -3,6 +3,7 @@ import express from "express"; // npm install express
 import taskRouter from "./routes/tasksRouters.js";
 import dotenv from "dotenv"; // npm install dotenv
 import { connectDB } from "./config/db.js";
+import cors from "cors"; // npm install cors
 
 dotenv.config(); // Đọc file .env
 
@@ -11,6 +12,8 @@ const PORT = process.env.PORT || 5001; // Đọc biến PORT tạo trong file .e
 const app = express(); // Khởi tạo express
 
 app.use(express.json()); // Khóa xây dựng JSON
+
+app.use(cors({ origin: "http://localhost:5173" })); // Khóa xây dựng CORS
 
 app.use("/api/tasks", taskRouter); // Khởi tạo router
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddTask from "@/components/AddTask";
 import DateTimeFilter from "@/components/DateTimeFilter";
 import Footer from "@/components/Footer";
@@ -6,8 +6,25 @@ import Header from "@/components/Header";
 import StartAndFilters from "@/components/StartAndFilters";
 import TaskList from "@/components/TaskList";
 import TaskListPagination from "@/components/TaskListPagination";
+import { toast } from "sonner";
+import axios from "axios";
 
 const HomePage = () => {
+  const [taskBuffer, setTaskBuffer] = useState([]);
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+  const fetchTasks = async () => {
+    try {
+      const res = await axios.get("http://localhost:5001/api/tasks");
+      setTaskBuffer(res.data);
+      console.log(res.data);
+      toast.success("Truy xuất tasks thành công.");
+    } catch (error) {
+      console.error("Lỗi xảy ra khi truy xuất tasks:", error);
+      toast.error("Lỗi xảy ra khi truy xuất tasks.");
+    }
+  };
   return (
     <div className="min-h-screen w-full relative">
       {/* Soft Morning Mist Background */}

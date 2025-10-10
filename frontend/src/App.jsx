@@ -8,7 +8,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Toaster />
+        <Toaster richColors/>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="*" element={<NotFound />} />
