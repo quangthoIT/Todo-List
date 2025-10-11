@@ -7,7 +7,7 @@ export const getAllTasks = async (req, res) => {
         $facet: {
           tasks: [{ $sort: { createdAt: -1 } }],
           activeCount: [{ $match: { status: "active" } }, { $count: "count" }],
-          completeCount: [
+          completedCount: [
             { $match: { status: "completed" } },
             { $count: "count" },
           ],
@@ -16,8 +16,8 @@ export const getAllTasks = async (req, res) => {
     ]);
     const tasks = results[0].tasks;
     const activeCount = results[0].activeCount[0]?.count || 0;
-    const completeCount = results[0].completeCount[0]?.count || 0;
-    res.status(200).json({ tasks, activeCount, completeCount }); // Trả về dữ liệu với mã trạng thái 200 (OK)
+    const completedCount = results[0].completedCount[0]?.count || 0;
+    res.status(200).json({ tasks, activeCount, completedCount }); // Trả về dữ liệu với mã trạng thái 200 (OK)
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks", error }); // Xử lý lỗi
   }

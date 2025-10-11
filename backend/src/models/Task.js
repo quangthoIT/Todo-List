@@ -9,7 +9,7 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String, // Kiểu dữ liệu là chuỗi
-      enum: ["active", "complete"], // Danh sách các trạng thái
+      enum: ["active", "completed"], // Danh sách các trạng thái
       default: "active", // Mặc định là "active"
     },
     completedAt: {

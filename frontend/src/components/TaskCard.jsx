@@ -41,6 +41,28 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
     }
   };
 
+  const toggleTaskcompletedButton = async () => {
+    try {
+      if (task.status === "active") {
+        await api.put(`/tasks/${task._id}`, {
+          status: "completed",
+          completedAt: new Date().toISOString(),
+        });
+        toast.success("Đã hoàn thành nhiệm vụ.");
+      } else {
+        await api.put(`/tasks/${task._id}`, {
+          status: "active",
+          completedAt: null,
+        });
+        toast.success("Đang làm nhiệm vụ.");
+      }
+      handleTaskChange();
+    } catch (error) {
+      console.error("Lỗi xảy ra khi update nhiệm vụ:", error);
+      toast.error("Lỗi xảy ra khi update nhiệm vụ.");
+    }
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       updateTask(task._id);
@@ -65,6 +87,7 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
               ? "text-green-500 hover:text-green-600"
               : "text-slate-500 hover:text-slate-600"
           )}
+          onClick={toggleTaskcompletedButton}
         >
           {task.status === "completed" ? (
             <CheckCircle2 className="size-5" />

@@ -14,7 +14,7 @@ const HomePage = () => {
 
   const [activeTaskCount, setActiveTaskCount] = useState(0);
 
-  const [completedTaskCount, setCompletedTaskCount] = useState(0);
+  const [completedTaskCount, setcompletedTaskCount] = useState(0);
 
   const [filter, setFilter] = useState("all");
 
@@ -27,7 +27,7 @@ const HomePage = () => {
       const res = await api.get("/tasks");
       setTaskBuffer(res.data.tasks);
       setActiveTaskCount(res.data.activeCount);
-      setCompletedTaskCount(res.data.completedCount);
+      setcompletedTaskCount(res.data.completedCount);
     } catch (error) {
       console.error("Lỗi xảy ra khi truy xuất tasks:", error);
       toast.error("Lỗi xảy ra khi truy xuất tasks.");
@@ -40,7 +40,7 @@ const HomePage = () => {
       case "active":
         return task.status === "active";
       case "completed":
-        return task.status === "complete";
+        return task.status === "completed";
       default:
         return true;
     }
