@@ -76,7 +76,10 @@ const HomePage = () => {
             {/* Đầu trang */}
             <Header />
             {/* Tạo task */}
-            <AddTask handleTaskChanged={handleTaskChanged} />
+            <AddTask
+              handleTaskChanged={handleTaskChanged}
+              handleTaskChange={fetchTasks}
+            />
             {/* Thống kê và Bộ lọc */}
             <StartAndFilters
               filter={filter}
@@ -85,7 +88,11 @@ const HomePage = () => {
               completedTasksCount={completedTaskCount}
             />
             {/* Danh sách task */}
-            <TaskList filteredTasks={filteredTasks} filter={filter} handleTaskChange={handleTaskChanged}/>
+            <TaskList
+              filteredTasks={filteredTasks}
+              filter={filter}
+              handleTaskChange={handleTaskChanged}
+            />
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               {/* Phân trang */}
               <TaskListPagination />

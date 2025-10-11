@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
 
-const AddTask = () => {
+const AddTask = ({ handleTaskChange }) => {
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const addTask = async () => {
     if (newTaskTitle.trim()) {
@@ -14,7 +14,8 @@ const AddTask = () => {
         await api.post("/tasks", {
           title: newTaskTitle,
         });
-        toast.success(`Nhiệm vụ ${newTaskTitle} đã được thêm vào.`);
+        handleTaskChange();
+        toast.success("Thêm nhiệm vụ thành công.");
         setNewTaskTitle("");
       } catch (error) {
         console.error("Lỗi xảy ra khi thêm nhiệm vụ:", error);
