@@ -85,7 +85,7 @@ const HomePage = () => {
               completedTasksCount={completedTaskCount}
             />
             {/* Danh sách task */}
-            <TaskList filteredTasks={filteredTasks} filter={filter} />
+            <TaskList filteredTasks={filteredTasks} filter={filter} handleTaskChange={handleTaskChanged}/>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               {/* Phân trang */}
               <TaskListPagination />
