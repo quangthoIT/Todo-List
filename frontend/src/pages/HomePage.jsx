@@ -18,13 +18,15 @@ const HomePage = () => {
 
   const [filter, setFilter] = useState("all");
 
+  const [dateQuery, setDateQuery] = useState("today");
+
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [dateQuery]);
 
   const fetchTasks = async () => {
     try {
-      const res = await api.get("/tasks");
+      const res = await api.get(`/tasks?filte=${dateQuery}`);
       setTaskBuffer(res.data.tasks);
       setActiveTaskCount(res.data.activeCount);
       setcompletedTaskCount(res.data.completedCount);
@@ -97,7 +99,10 @@ const HomePage = () => {
               {/* Phân trang */}
               <TaskListPagination />
               {/* Thống kê ngày */}
-              <DateTimeFilter />
+              <DateTimeFilter
+                dateQuery={dateQuery}
+                setDateQuery={setDateQuery}
+              />
             </div>
             {/* Chân trang */}
             <Footer
