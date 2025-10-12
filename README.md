@@ -5,6 +5,8 @@
 Ứng dụng **Quản lý công việc cá nhân (Todo List)** giúp người dùng tạo, theo dõi, hoàn thành và xóa các nhiệm vụ hằng ngày.
 Dự án được phát triển bằng **MERN Stack (MongoDB, ExpressJS, React, Node.js)** kết hợp với **TailwindCSS** để tạo giao diện hiện đại, thân thiện.
 
+🔗 **Truy cập trực tiếp:** [https://todo-list-golt.onrender.com](https://todo-list-golt.onrender.com)
+
 ---
 
 ## 🧩 Tính năng chính
