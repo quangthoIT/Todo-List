@@ -4,18 +4,31 @@ import taskRouter from "./routes/tasksRouters.js";
 import dotenv from "dotenv"; // npm install dotenv
 import { connectDB } from "./config/db.js";
 import cors from "cors"; // npm install cors
+import path from "path";
 
 dotenv.config(); // Đọc file .env
 
 const PORT = process.env.PORT || 5001; // Đọc biến PORT tạo trong file .env hoặc 5001
 
+const __dirname = path.resolve();
+
 const app = express(); // Khởi tạo express
 
 app.use(express.json()); // Khóa xây dựng JSON
 
-app.use(cors({ origin: "http://localhost:5173" })); // Khóa xây dựng CORS
+if (process.env.NODE_ENV === "production") {
+  app.use(cors({ origin: "http://localhost:5173" })); // Khóa xây dựng CORS
+}
 
 app.use("/api/tasks", taskRouter); // Khởi tạo router
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Khóa xây dựng tài liệu tại thư mục frontend/dist
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"))
+  );
+}
 
 // Kết nối với cơ sở dữ liệu trước khi chạy server
 connectDB().then(() => {
