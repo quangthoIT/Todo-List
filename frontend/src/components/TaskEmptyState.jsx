@@ -4,7 +4,7 @@ import { Circle } from "lucide-react";
 
 const TaskEmptyState = ({ filter }) => {
   return (
-    <Card className="p-8 text-center border-0 bg-slate-50 shadow-md">
+    <Card className="p-8 text-center border-0 bg-slate-50 shadow-md mx-5 sm:mx-0">
       <div className="space-y-3">
         {/* Icon */}
         <Circle className="mx-auto size-12 text-slate-500" />
@@ -22,7 +22,7 @@ const TaskEmptyState = ({ filter }) => {
             {filter === "all"
               ? "Thêm nhiệm vụ mới để bắt đầu !"
               : `Chuyển sang Tất cả để thấy những nhiệm vụ ${
-                  filter === "active" ? "hoàn thành." : "đang làm."
+                  filter === "active" ? "đang làm." : "hoàn thành."
                 }`}
           </p>
         </div>

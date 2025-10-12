@@ -8,6 +8,7 @@ import TaskList from "@/components/TaskList";
 import TaskListPagination from "@/components/TaskListPagination";
 import { toast } from "sonner";
 import api from "@/lib/axios";
+import { visibleTaskLimit } from "@/lib/data";
 
 const HomePage = () => {
   const [taskBuffer, setTaskBuffer] = useState([]);
@@ -20,13 +21,19 @@ const HomePage = () => {
 
   const [dateQuery, setDateQuery] = useState("today");
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     fetchTasks();
   }, [dateQuery]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [filter, dateQuery]);
+
   const fetchTasks = async () => {
     try {
-      const res = await api.get(`/tasks?filte=${dateQuery}`);
+      const res = await api.get(`/tasks?filter=${dateQuery}`);
       setTaskBuffer(res.data.tasks);
       setActiveTaskCount(res.data.activeCount);
       setcompletedTaskCount(res.data.completedCount);
@@ -47,6 +54,33 @@ const HomePage = () => {
         return true;
     }
   });
+
+  const handleNext = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
+  const visibleTasks = filteredTasks.slice(
+    (page - 1) * visibleTaskLimit,
+    page * visibleTaskLimit
+  );
+
+  if (visibleTasks.length === 0) {
+    handlePrev();
+  }
+
+  const totalPages = Math.ceil(filteredTasks.length / visibleTaskLimit);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   const handleTaskChanged = () => {
     fetchTasks();
@@ -91,13 +125,19 @@ const HomePage = () => {
             />
             {/* Danh sách task */}
             <TaskList
-              filteredTasks={filteredTasks}
+              filteredTasks={visibleTasks}
               filter={filter}
               handleTaskChange={handleTaskChanged}
             />
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mx-5 sm:mx-0">
               {/* Phân trang */}
-              <TaskListPagination />
+              <TaskListPagination
+                handleNext={handleNext}
+                handlePrev={handlePrev}
+                handlePageChange={handlePageChange}
+                page={page}
+                totalPages={totalPages}
+              />
               {/* Thống kê ngày */}
               <DateTimeFilter
                 dateQuery={dateQuery}
@@ -105,10 +145,12 @@ const HomePage = () => {
               />
             </div>
             {/* Chân trang */}
-            <Footer
-              activeTasksCount={activeTaskCount}
-              completedTasksCount={completedTaskCount}
-            />
+            <div className="pb-3">
+              <Footer
+                activeTasksCount={activeTaskCount}
+                completedTasksCount={completedTaskCount}
+              />
+            </div>
           </div>
         </div>
       }

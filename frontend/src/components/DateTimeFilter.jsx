@@ -45,7 +45,7 @@ const DateTimeFilter = ({ dateQuery, setDateQuery }) => {
                   key={option.value}
                   value={option.value}
                   className={cn(
-                    "text-sm cursor-pointer transition-colors",
+                    "text-sm text-slate-800 cursor-pointer transition-colors",
                     "hover:bg-blue-50 hover:text-blue-600"
                   )}
                   onSelect={(currentValue) => {
