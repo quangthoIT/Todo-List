@@ -142,7 +142,7 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
           </div>
         </div>
 
-        <div className="md:hidden gap-2 md:group-hover:inline-flex">
+        <div className="lg:hidden gap-2 lg:group-hover:inline-flex">
           {/* Sửa */}
           <Button
             variant="ghost"
