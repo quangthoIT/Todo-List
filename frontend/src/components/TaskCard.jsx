@@ -18,8 +18,10 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
   const [updatedTaskTitle, setUpdatedTaskTitle] = useState(task.title || "");
   const deleteTask = async (taskID) => {
     try {
+      // Gọi api xóa nhiệm vụ
       await api.delete(`/tasks/${taskID}`);
       toast.success("Xóa nhiệm vụ thành công.");
+      // Sử dụng handleTaskChange để cập nhật danh sách nhiệm vụ
       handleTaskChange();
     } catch (error) {
       console.error("Lỗi xảy ra khi xóa nhiệm vụ:", error);
@@ -27,13 +29,17 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
     }
   };
 
+  // Cập nhật nhiệm vụ
   const updateTask = async () => {
     try {
+      // Khi setIsEditing false thi cấp nhật nhiệm vụ
       setIsEditing(false);
+      // Gọi api cập nhật nhiệm vụ
       await api.put(`/tasks/${task._id}`, {
         title: updatedTaskTitle,
       });
       toast.success("Cập nhật nhiệm vụ thành công.");
+      // Sử dụng handleTaskChange để cập nhật danh sách nhiệm vụ
       handleTaskChange();
     } catch (error) {
       console.error("Lỗi xảy ra khi cập nhật nhiệm vụ:", error);
@@ -41,21 +47,27 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
     }
   };
 
+  // Handle hóa nâng cấp nhiệm vụ
   const toggleTaskcompletedButton = async () => {
     try {
+      // Nếu nhiệm vụ đang làm thì hóa nâng cấp nhiệm vụ
       if (task.status === "active") {
+        // Gọi api nâng cấp nhiệm vụ
         await api.put(`/tasks/${task._id}`, {
           status: "completed",
           completedAt: new Date().toISOString(),
         });
         toast.success("Đã hoàn thành nhiệm vụ.");
-      } else {
+      }
+      // Nếu nhiệm vụ hoàn thành thì hóa nâng cấp nhiệm vụ
+      else {
         await api.put(`/tasks/${task._id}`, {
           status: "active",
           completedAt: null,
         });
         toast.success("Đang làm nhiệm vụ.");
       }
+      // Sử dụng handleTaskChange để cập nhật danh sách nhiệm vụ
       handleTaskChange();
     } catch (error) {
       console.error("Lỗi xảy ra khi update nhiệm vụ:", error);
@@ -63,7 +75,9 @@ const TaskCard = ({ task, index, handleTaskChange }) => {
     }
   };
 
+  // Handle nâng cấp nhiệm vụ
   const handleKeyPress = (e) => {
+    // Nếu nhấn phím Enter thì cập nhật nhiệm vụ
     if (e.key === "Enter") {
       updateTask(task._id);
     }

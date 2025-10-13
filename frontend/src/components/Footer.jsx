@@ -15,7 +15,7 @@ const Footer = ({ completedTasksCount = 0, activeTasksCount = 0 }) => {
             {/* Có nhiệm vụ đã hoàn thành và có nhiệm vụ đang làm */}
             {completedTasksCount > 0 &&
               activeTasksCount > 0 &&
-              `Bạn đã hoàn thành ${completedTasksCount} và đang còn ${activeTasksCount} nhiệm vụ. Cố lên!`}
+              `Bạn đã hoàn thành ${completedTasksCount} nhiệm vụ và đang còn ${activeTasksCount} nhiệm vụ. Cố lên!`}
             {/* Không có nhiệm vụ đã hoàn thành và có nhiệm vụ đang làm */}
             {completedTasksCount === 0 &&
               activeTasksCount > 0 &&

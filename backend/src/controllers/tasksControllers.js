@@ -5,12 +5,15 @@ export const getAllTasks = async (req, res) => {
   const now = new Date();
   let startDate;
 
+  // Tìm kiếm task theo filter hôm nay, tuần, tháng
   switch (filter) {
     case "today": {
+      // Tìm kiếm task theo hôm nay
       startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       break;
     }
     case "week": {
+      // Tìm kiếm task theo tuần này
       startDate = new Date(
         now.getFullYear(),
         now.getMonth(),
@@ -19,9 +22,11 @@ export const getAllTasks = async (req, res) => {
       break;
     }
     case "month": {
+      // Tìm kiếm task theo tháng này
       startDate = new Date(now.getFullYear(), now.getMonth(), 1);
       break;
     }
+    // Tìm kiếm task theo tất cả
     case "all":
     default: {
       startDate = null;
@@ -30,23 +35,24 @@ export const getAllTasks = async (req, res) => {
 
   const query = startDate ? { createdAt: { $gte: startDate } } : {};
 
+  // Truy vấn task theo filter đang làm / hoàn thành
   try {
     const results = await Task.aggregate([
       { $match: query },
       {
         $facet: {
-          tasks: [{ $sort: { createdAt: -1 } }],
-          activeCount: [{ $match: { status: "active" } }, { $count: "count" }],
+          tasks: [{ $sort: { createdAt: -1 } }], // Sắp xếp task theo thời gian tạo mới nhất
+          activeCount: [{ $match: { status: "active" } }, { $count: "count" }], // Đếm số task đang làm
           completedCount: [
-            { $match: { status: "completed" } },
+            { $match: { status: "completed" } }, // Đếm số task hoàn thành
             { $count: "count" },
           ],
         },
       },
     ]);
-    const tasks = results[0].tasks;
-    const activeCount = results[0].activeCount[0]?.count || 0;
-    const completedCount = results[0].completedCount[0]?.count || 0;
+    const tasks = results[0].tasks; // Lấy danh sách task
+    const activeCount = results[0].activeCount[0]?.count || 0; // Lấy số task đang làm
+    const completedCount = results[0].completedCount[0]?.count || 0; // Lấy số task hoàn thành
     res.status(200).json({ tasks, activeCount, completedCount }); // Trả về dữ liệu với mã trạng thái 200 (OK)
   } catch (error) {
     res.status(500).json({ message: "Error fetching tasks", error }); // Xử lý lỗi

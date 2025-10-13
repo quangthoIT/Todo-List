@@ -31,11 +31,16 @@ const HomePage = () => {
     setPage(1);
   }, [filter, dateQuery]);
 
+  // Hàm để lấy tasks
   const fetchTasks = async () => {
     try {
+      // Gọi api truy xuất tasks
       const res = await api.get(`/tasks?filter=${dateQuery}`);
+      // Sử dụng setTaskBuffer để cập nhật danh sách tasks
       setTaskBuffer(res.data.tasks);
+      // Sử dụng setActiveTaskCount để cập nhật số task active
       setActiveTaskCount(res.data.activeCount);
+      // Sử dụng setcompletedTaskCount để cập nhật số task hoàn thành
       setcompletedTaskCount(res.data.completedCount);
     } catch (error) {
       console.error("Lỗi xảy ra khi truy xuất tasks:", error);
@@ -46,42 +51,54 @@ const HomePage = () => {
   // Hàm để lấy task theo filter
   const filteredTasks = taskBuffer.filter((task) => {
     switch (filter) {
+      // Nếu filter là active thì task.status phải là active
       case "active":
         return task.status === "active";
+      // Nếu filter là completed thì task.status phải là completed
       case "completed":
         return task.status === "completed";
+      // Nếu filter là all thì task.status phải là active và completed
       default:
         return true;
     }
   });
 
+  // Hàm để lấy task theo page Next
   const handleNext = () => {
+    // Nếu page < totalPage thì page + 1
     if (page < totalPages) {
       setPage((prev) => prev + 1);
     }
   };
 
+  // Hàm để lấy task theo page Prev
   const handlePrev = () => {
+    // Nếu page > 1 thì page - 1
     if (page > 1) {
       setPage((prev) => prev - 1);
     }
   };
 
+  // Hàm để lấy task theo page
   const visibleTasks = filteredTasks.slice(
     (page - 1) * visibleTaskLimit,
     page * visibleTaskLimit
   );
 
+  // Nếu không có task page sau thì lấy task trên page trước đó
   if (visibleTasks.length === 0) {
     handlePrev();
   }
 
+  // Tính toán số trang
   const totalPages = Math.ceil(filteredTasks.length / visibleTaskLimit);
 
+  // Hàm để cập nhật page
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
+  // Hàm để lấy task theo filter
   const handleTaskChanged = () => {
     fetchTasks();
   };

@@ -6,14 +6,14 @@ import {
   updateTask,
 } from "../controllers/tasksControllers.js";
 
-const router = express.Router();
+const router = express.Router(); // Khởi tạo router
 
-router.get("/", getAllTasks);
+router.get("/", getAllTasks); // Lấy tất cả task
 
-router.post("/", createTask);
+router.post("/", createTask); // Tạo task
 
-router.put("/:id", updateTask);
+router.put("/:id", updateTask); // Cập nhật task
 
-router.delete("/:id", deleteTask);
+router.delete("/:id", deleteTask); // Xóa task
 
 export default router;

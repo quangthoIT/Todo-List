@@ -11,9 +11,12 @@ const AddTask = ({ handleTaskChange }) => {
   const addTask = async () => {
     if (newTaskTitle.trim()) {
       try {
+        // Gọi api tạo nhiệm vụ
         await api.post("/tasks", {
+          // Truyền tham số title với giá trị newTaskTitle vào api
           title: newTaskTitle,
         });
+        // Sử dụng handleTaskChange để cập nhật danh sách nhiệm vụ
         handleTaskChange();
         toast.success("Thêm nhiệm vụ thành công.");
         setNewTaskTitle("");
